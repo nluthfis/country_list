@@ -4,7 +4,7 @@ import earthImage from "../../assets/earth.png";
 function Index() {
   return (
     <>
-      <nav className="navbar navbar-light bg-light d-flex justify-content-center">
+      <nav className="navbar d-flex justify-content-center">
         <div
           className="navbar-brand d-flex justify-content-center align-items-center"
           href="/"
@@ -16,7 +16,7 @@ function Index() {
             className="d-inline-block align-top img-fluid"
             alt=""
           />
-          <h1> The Earth</h1>
+          <h1> The Earth </h1>
         </div>
       </nav>
     </>

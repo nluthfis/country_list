@@ -11,8 +11,8 @@ function Index() {
     <div className="container">
       <div className="row">
         <div className="col">
-          <div className="card text-center">
-            <div className="card-body ">
+          <div className="card text-center m-3">
+            <div className="card-body">
               <div className="card-title text-center fs-1 fw-bold m-2">
                 {countriesData?.name.common}
               </div>

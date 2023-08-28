@@ -10,12 +10,22 @@ function Index() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [showFlags, setShowFlags] = useState(false);
-  const [region, setRegion] = useState([]);
-
-  const regions = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
+  const [selectedRegion, setSelectedRegion] = useState("");
 
   const countries = useSelector((state) => state?.countries);
   console.log(countries);
+
+  const uniqueRegions = [];
+
+  for (const country of countries.countries) {
+    const region = country.region;
+    if (!uniqueRegions.includes(region)) {
+      uniqueRegions.push(region);
+    }
+  }
+
+  console.log(uniqueRegions);
+  // console.log(countries);
   let sortedCountry = [];
   if (countries && countries.countries) {
     sortedCountry = [...countries.countries].sort((a, b) => {
@@ -29,9 +39,17 @@ function Index() {
     });
   }
 
-  const filteredCountries = sortedCountry.filter((item) =>
-    item.name.common.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // ...
+
+  const filteredCountries = sortedCountry.filter((item) => {
+    const matchesSearchQuery = item.name.common
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesSelectedRegion = selectedRegion
+      ? item.region === selectedRegion
+      : true;
+    return matchesSearchQuery && matchesSelectedRegion;
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -63,16 +81,31 @@ function Index() {
   };
 
   return (
-    <div className="container">
+    <div className="container border border-5 mb-5">
       <CountryFetcher setCountry={setCountry} />
-      <RegionFether setRegion={setRegion} />
+      {/* <RegionFether setRegion={setRegion} /> */}
       <div className="row">
         <div className="col">
           <h1 className="fw-bold mt-5">List of Countries </h1>
           <p> This is all ordered list of the countries of the world.</p>
-          <button className="btn btn-dark mb-3" onClick={toggleView}>
-            View by Flags
-          </button>
+          <div className="mb-3">
+            <button className="btn btn-dark m-1" onClick={toggleView}>
+              View by Flags
+            </button>
+            <select
+              className="btn btn-dark m-1"
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+            >
+              <option value="">View by Regions</option>
+              {uniqueRegions.map((region) => (
+                <option key={region} value={region}>
+                  {region}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="d-flex justify-content-center">
             <input
               className="form-control text-center w-50 border border-dark mb-5"
@@ -98,7 +131,7 @@ function Index() {
           )}
         </div>
       </div>
-      <div>
+      <div className="text-center m-3">
         {currentPage > 1 && (
           <div className="btn" onClick={handlePrevPage}>
             Prev
