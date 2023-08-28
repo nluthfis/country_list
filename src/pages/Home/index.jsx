@@ -155,11 +155,6 @@ function Index() {
           </div>
         )}
         {currentPage < totalPages && (
-          <div className="btn" onClick={() => setCurrentPage(currentPage + 2)}>
-            {currentPage + 2}
-          </div>
-        )}
-        {currentPage < totalPages && (
           <div className="btn" onClick={handleNextPage}>
             Next
           </div>

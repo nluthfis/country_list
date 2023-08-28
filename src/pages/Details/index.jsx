@@ -25,36 +25,72 @@ function Index() {
                 Official Name : {countriesData?.name.official}
               </li>
               <li className="list-group-item">
-                Region : {countriesData?.region}
+                Region : {countriesData?.region ? countriesData?.region : "-"}
               </li>
               <li className="list-group-item">
-                Population : {countriesData?.population}
+                Population :&nbsp;
+                {countriesData?.population ? countriesData?.population : "-"}
               </li>
               <li className="list-group-item d-flex justify-content-center">
                 Capital : &nbsp;
-                {countriesData?.capital.map((item, key) => (
-                  <div key={key}>
-                    <p> {item} </p>
-                  </div>
-                ))}
+                {countriesData &&
+                countriesData.capital !== "" &&
+                countriesData.capital !== null &&
+                countriesData.capital !== undefined ? (
+                  countriesData.capital.map((capital, key) => (
+                    <div key={key}>
+                      {capital ? <p>{capital}&nbsp;</p> : <p>-</p>}
+                    </div>
+                  ))
+                ) : (
+                  <p>-</p>
+                )}
               </li>
+              <li className="list-group-item d-flex justify-content-center">
+                Borders : &nbsp;
+                {countriesData &&
+                countriesData.borders !== "" &&
+                countriesData.borders !== null &&
+                countriesData.borders !== undefined ? (
+                  countriesData.borders.map((borders, key) => (
+                    <div key={key}>
+                      {borders ? <p>{borders}&nbsp;</p> : <p>-</p>}
+                    </div>
+                  ))
+                ) : (
+                  <p>-</p>
+                )}
+              </li>
+
               <li className="list-group-item d-flex justify-content-center">
                 Currencies : &nbsp;
-                {Object.keys(countriesData.currencies).map((currencyCode) => (
-                  <div key={currencyCode}>
-                    {countriesData.currencies[currencyCode].name}&nbsp;(
-                    {currencyCode})
-                  </div>
-                ))}
+                {countriesData &&
+                countriesData.currencies &&
+                Object.keys(countriesData.currencies).length > 0 ? (
+                  Object.keys(countriesData.currencies).map((currencyCode) => (
+                    <div key={currencyCode}>
+                      {countriesData.currencies[currencyCode].name}&nbsp;(
+                      {currencyCode})&nbsp;
+                    </div>
+                  ))
+                ) : (
+                  <p>-</p>
+                )}
               </li>
               <li className="list-group-item d-flex justify-content-center">
-                Languages :
-                {Object.keys(countriesData.languages).map((langCode) => (
-                  <div key={langCode}>
-                    &nbsp;{countriesData.languages[langCode]} &nbsp;(
-                    {langCode.toUpperCase()})
-                  </div>
-                ))}
+                Languages : &nbsp;
+                {countriesData &&
+                countriesData.languages &&
+                Object.keys(countriesData.languages).length > 0 ? (
+                  Object.keys(countriesData.languages).map((langCode) => (
+                    <div key={langCode}>
+                      {countriesData.languages[langCode]}&nbsp;(
+                      {langCode.toUpperCase()})&nbsp;
+                    </div>
+                  ))
+                ) : (
+                  <p>-</p>
+                )}
               </li>
 
               <Maps data={countriesData?.latlng} />
@@ -64,11 +100,14 @@ function Index() {
               </li>
             </ul>
             <div className="card-body">
-              <a href="#" className="card-link">
-                Card link
+              <a href={countriesData?.maps.googleMaps} className="card-link">
+                GoogleMaps Link
               </a>
-              <a href="#" className="card-link">
-                Another link
+              <a
+                href={countriesData?.maps.openStreetMaps}
+                className="card-link"
+              >
+                OpenStreetMaps Link
               </a>
             </div>
           </div>
